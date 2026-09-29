@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PureMedia — Metadata & C2PA Cleaner</title>
+<meta name="description" content="Browser-local metadata and C2PA cleanup for supported media formats.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="brand"><span class="brand-mark">P</span>PureMedia</div>
+  <div class="tag">LOCAL-FIRST MEDIA CLEANER</div>
+</header>
+
+<main class="shell">
+  <section class="hero">
+    <p class="eyebrow">MEDIA PRIVACY TOOL</p>
+    <h1>Strip supported metadata and C2PA data from files you own.</h1>
+    <p class="lead">
+      PureMedia creates a new output file and leaves the original untouched.
+      It handles common metadata structures and supported C2PA container records locally in your browser.
+    </p>
+  </section>
+
+  <section class="tool">
+    <div class="tabs">
+      <button class="tab active" data-mode="image">Image</button>
+      <button class="tab" data-mode="video">Video</button>
+    </div>
+
+    <input id="fileInput" type="file" hidden>
+    <label id="dropZone" class="drop" for="fileInput">
+      <div class="icon">↑</div>
+      <strong>Drop a file here</strong>
+      <span id="formats">JPG, PNG, WebP</span>
+      <small>Processed locally in your browser. The original file is not modified.</small>
+    </label>
+
+    <div id="workspace" class="workspace hidden">
+      <div class="preview-card">
+        <div class="section-title">Preview</div>
+        <div id="preview"></div>
+      </div>
+
+      <div class="report-card">
+        <div class="section-title">Inspection</div>
+        <div class="kv"><span>Name</span><b id="name">—</b></div>
+        <div class="kv"><span>Type</span><b id="type">—</b></div>
+        <div class="kv"><span>Size</span><b id="size">—</b></div>
+        <div class="kv"><span>Dimensions</span><b id="dimensions">—</b></div>
+        <div class="kv"><span>EXIF/XMP/IPTC</span><b id="metadataStatus">Scanning…</b></div>
+        <div class="kv"><span>C2PA / Content Credentials</span><b id="c2paStatus">Scanning…</b></div>
+        <div class="kv"><span>Invisible watermark</span><b class="warn">Not universally removable</b></div>
+
+        <div class="actions">
+          <button id="cleanBtn" class="primary">Create cleaned copy</button>
+          <button id="resetBtn">Choose another</button>
+        </div>
+        <div id="status" class="status"></div>
+      </div>
+    </div>
+
+    <div id="verification" class="verification hidden">
+      <h2>Verification</h2>
+      <div class="verify-grid">
+        <div><span>Ordinary metadata</span><b id="verifyMetadata">—</b></div>
+        <div><span>C2PA container data</span><b id="verifyC2pa">—</b></div>
+        <div><span>Original file</span><b class="ok">Untouched</b></div>
+      </div>
+      <button id="downloadBtn" class="primary">Download cleaned file</button>
+    </div>
+  </section>
+
+  <section class="info">
+    <h2>What this version actually supports</h2>
+    <div class="cards">
+      <article><h3>JPEG</h3><p>Re-encodes pixels into a fresh JPEG, discarding common EXIF/XMP/IPTC container metadata.</p></article>
+      <article><h3>PNG</h3><p>Re-encodes the image to remove ancillary text/provenance chunks that are not part of the visible pixels.</p></article>
+      <article><h3>WebP</h3><p>Re-encodes into a fresh file, dropping common EXIF/XMP metadata carried in the original container.</p></article>
+      <article><h3>MP4 / MOV / M4V</h3><p>Removes supported top-level C2PA/JUMBF UUID boxes while preserving the remaining file bytes.</p></article>
+    </div>
+    <div class="warning-box">
+      <b>Important:</b> There is no technically honest “universal invisible-watermark remover.”
+      Pixel/frame watermark systems such as SynthID are not ordinary metadata and can survive re-encoding.
+      This project therefore does not claim guaranteed removal of all invisible watermarking or platform-side classifiers.
+    </div>
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
